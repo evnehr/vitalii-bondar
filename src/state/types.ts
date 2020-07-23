@@ -1,0 +1,5 @@
+export const types = {
+  FILL_TASKS: 'FILL_TASKS',
+  START_FETCHING: 'START_FETCHING',
+  STOP_FETCHING: 'STOP_FETCHING'
+};
