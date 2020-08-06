@@ -9,7 +9,7 @@ interface EditButtonProps {
 const EditButton = (props: EditButtonProps) => {
 
   return (
-    <Box p={0.5} pl={0}>
+    <Box  p={0.5} pl={0}>
       <IconButton size={'small'} {...props}>
         <Edit />
       </IconButton>

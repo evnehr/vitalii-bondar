@@ -8,6 +8,8 @@ import {actions} from "../../state/actions";
 import Search from "../Search";
 import CheckboxButton from "../CheckboxButton";
 import Spinner from "../Spinner";
+import {ITask} from "../../interfaces";
+import {sortTasksByGroup} from "../../instruments/helpers";
 
 const Scheduler = () => {
   const {state, dispatch} = useContext(ContextApp);
@@ -19,6 +21,15 @@ const Scheduler = () => {
       dispatch(actions.stopFetching());
     })
   },[dispatch]);
+  const completeAll = () => {
+    const apiCalls = state.tasks.map((task: ITask) => api.update({...task, completed: true}))
+
+    Promise.all(apiCalls)
+        .then(() => (
+          api.get()
+              .then((response) => dispatch(actions.fillTasks(response.results)))
+        ))
+  }
 
   return (
     <Box p={4} mt={8}>
@@ -38,14 +49,17 @@ const Scheduler = () => {
           </Box>
           <TaskInput />
           <TaskList
-            tasks={state.tasks}
+            tasks={sortTasksByGroup(state.tasks)}
             />
         </Box>
         <Box
           p={2}
           display={'flex'}
           alignItems={'center'}>
-          <CheckboxButton />
+          <CheckboxButton
+              checked={state.tasks.every((task: ITask) => task.completed)}
+              onClick={completeAll}
+          />
           <Box ml={1}>
             <Typography>{'Complete all'}</Typography>
           </Box>

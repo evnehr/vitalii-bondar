@@ -16,7 +16,6 @@ export const sortTasksByDate = (tasks:ITask[]) => {
 };
 
 export const sortTasksByGroup = (tasks: ITask[]) => {
-  console.log(tasks);
   const favorite = tasks.filter((task) => task.starred && !task.completed);
   const usual = tasks.filter((task) => !task.starred && !task.completed);
   const completed = sortTasksByDate(tasks.filter((task) => task.completed));
